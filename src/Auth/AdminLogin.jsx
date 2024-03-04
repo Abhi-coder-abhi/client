@@ -1,52 +1,60 @@
 import axios from "axios";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { logIn } from "../store/slices/UserSlice";
 import { useNavigate } from "react-router-dom";
 const AdminLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/adminLogin",
+        "https://simsun-backend.onrender.com/api/adminLogin",
         {
           email,
           password,
         }
       );
-        console.log(response.status)
-      if (response.status == 200) {
+      console.log(response.status);
+      if (response.status == 200 && response.data.success) {
         // Registration was successful
         const json = response.data;
-        dispatch(logIn(json))
+        dispatch(logIn(json));
         console.log(json);
-        navigate("/addProduct");
+        navigate("/AdminInquiry");
       } else {
+        toast.error("Invalid email or password");
         // Handle other status codes or errors here
         console.error("Registration failed with status code:", response.status);
+        setEmail("");
+        setPassword("");
       }
     } catch (error) {
       console.error("Registration failed:", error.message);
+      toast.error("Invalid email or password");
+      setEmail("");
+      setPassword("");
     }
   };
   return (
     <div
-      className="bg-no-repeat bg-cover bg-center relative"
+      className="md:mt-16 bg-no-repeat bg-cover bg-center relative pt-28 md:pt-4"
       style={{
         backgroundImage:
           "url(https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1951&q=80)",
       }}
     >
       <div className="sm:absolute bg-gradient-to-b from-green-500 to-green-400 opacity-75 inset-0 z-0" />
-      <div className="min-h-screen sm:flex sm:flex-row mx-0 justify-center">
-        <div className="flex-col flex  self-center p-10 sm:max-w-5xl xl:max-w-2xl  z-10">
+      <div className="min-h-screen sm:flex sm:flex-row justify-center mx-4">
+        <div className="flex-col flex  self-center p-10 sm:max-w-5xl xl:max-w-2xl  z-0">
           <div className="self-start hidden lg:flex flex-col  text-white">
             <h1 className="mb-3 font-bold text-5xl"> Welcome back admin </h1>
             <p className="pr-3 text-3xl">
@@ -56,7 +64,7 @@ const AdminLogin = () => {
             </p>
           </div>
         </div>
-        <div className="flex justify-center self-center  z-10">
+        <div className="flex justify-center self-center z-0">
           <div className="p-12 bg-white mx-auto rounded-2xl w-100 ">
             <div className="mb-4">
               <h3 className="font-semibold text-2xl text-gray-800">Login </h3>

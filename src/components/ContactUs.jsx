@@ -2,12 +2,12 @@ import React from "react";
 
 function ContactUs() {
   return (
-    <div className="bg-gray-100 min-h-screen py-10 ">
+    <div className="mt-0 md:mt-16 bg-gray-100 min-h-screen  pt-28 md:pt-8">
       <div className="container mx-auto px-4">
         <h1 className="text-3xl font-semibold text-gray-800 mb-6">
           Contact Us
         </h1>
-        <div className="sm:grid grid-cols-1 md:grid-cols-2 gap-8 flex flex-col">
+        <div className="md:grid  md:grid-cols-2 gap-8 flex flex-col">
           <div className="bg-white p-6 rounded-lg shadow-md ">
             <h2 className="text-2xl font-semibold text-gray-800 mb-4">
               Contact Information
@@ -17,7 +17,7 @@ function ContactUs() {
             </p>
             <ul className="list-disc pl-5">
               <li className="mb-2">Email: simsunelectricwork@gmail.com</li>
-              <li className="mb-2">Phone: +007 9089 6767</li>
+              <li className="mb-2">Phone: +91-9718905221</li>
               <li className="mb-2">
                 Address: Flat No. T-1, 104, 1st Floor, Tower-1 No. GH 01/A,
                 Sector 16C, Exotica Dreamville, Greater Noida, U.P. 201203
@@ -114,10 +114,10 @@ function ContactUs() {
                     <path
                       fill="none"
                       stroke="#fff"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-miterlimit="10"
-                      stroke-width="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeMiterlimit="10"
+                      strokeWidth="2"
                       d="M30,11H18c-3.9,0-7,3.1-7,7v12c0,3.9,3.1,7,7,7h12c3.9,0,7-3.1,7-7V18C37,14.1,33.9,11,30,11z"
                     ></path>
                     <circle cx="31" cy="16" r="1" fill="#fff"></circle>
@@ -129,10 +129,10 @@ function ContactUs() {
                       r="6"
                       fill="none"
                       stroke="#fff"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-miterlimit="10"
-                      stroke-width="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeMiterlimit="10"
+                      strokeWidth="2"
                     ></circle>
                   </g>
                 </svg>

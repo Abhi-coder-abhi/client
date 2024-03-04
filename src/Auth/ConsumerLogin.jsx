@@ -1,47 +1,56 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { logIn } from "../store/slices/UserSlice";
+import { useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ConsumerLogin = () => {
+  const { search } = useLocation();
+  const redirectInUrl = new URLSearchParams(search).get("redirect");
+  const redirect = redirectInUrl ? redirectInUrl : "/";
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/consumerLogin",
+        "https://simsun-backend.onrender.com/api/consumerLogin",
         {
           email,
           password,
         }
       );
 
-      if (response.status === 200) {
-        // Registration was successful
+      if (response.status === 200 && response.data.success) {
         const json = response.data;
-        dispatch(logIn(json))
+        dispatch(logIn(json));
         console.log(json);
         navigate("/");
       } else {
-        // Handle other status codes or errors here
-        console.error("Registration failed with status code:", response.status);
+        console.error("Login failed with status code:", response.status);
+        toast.error("Invalid email or password");
+        setEmail("");
+        setPassword("");
       }
     } catch (error) {
       // Handle network or other errors
-      console.error("Registration failed:", error.message);
+      console.error("Login failed:", error.message);
+      toast.error("Invalid email or password");
+      setEmail("");
+      setPassword("");
     }
   };
 
-  
-
   return (
-    <section className="gradient-form h-full ">
+    <section className="md:mt-16 gradient-form h-full z-10 flex justify-center pt-28 md:pt-4">
       <div className="container h-full p-10">
         <div className="g-6 flex h-full flex-wrap items-center justify-center text-neutral-800 dark:text-neutral-200">
           <div className="w-full">
@@ -53,12 +62,12 @@ const ConsumerLogin = () => {
                     {/*Logo*/}
                     <div className="text-center">
                       {/* <img className="mx-auto w-48" src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp" alt="logo" /> */}
-                      <h4 className="mb-12 mt-1 pb-1 text-xl sm:text-2xl font-semibold text-white">
+                      <h4 className="mb-10 mt-1 pt-4 pb-1 text-xl sm:text-2xl font-semibold text-white">
                         We are The Simsun Team
                       </h4>
                     </div>
                     <form>
-                      <p className="mb-4 sm:text-2xl">
+                      <p className="mb-6 sm:text-2xl">
                         Please login to your consumer account
                       </p>
                       {/*Username input*/}
@@ -69,8 +78,8 @@ const ConsumerLogin = () => {
                         >
                           Your Email
                         </label>
-                        <div className="relative mb-6">
-                          <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
+                        <div className="flex">
+                          <div className="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-r-0 border-gray-300 rounded-l-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
                             <svg
                               className="w-4 h-4 text-gray-500 dark:text-gray-400"
                               aria-hidden="true"
@@ -85,10 +94,10 @@ const ConsumerLogin = () => {
                           <input
                             type="text"
                             id="input-group-1"
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            className="rounded-none rounded-r-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="xyz@gmail.com"
                             value={email}
-                            onChange={(e) =>setEmail(e.target.value)}
+                            onChange={(e) => setEmail(e.target.value)}
                           />
                         </div>
                         <label
@@ -115,7 +124,7 @@ const ConsumerLogin = () => {
                             className="rounded-none rounded-r-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder=""
                             value={password}
-                            onChange={(e) =>setPassword(e.target.value)}
+                            onChange={(e) => setPassword(e.target.value)}
                           />
                         </div>
                       </div>
@@ -136,19 +145,27 @@ const ConsumerLogin = () => {
                           Login
                         </button>
                         {/*Forgot password link*/}
-                        <a href="#!">Doesn't have an acount?</a>
+                        <Link to={`/auth/consumerRegistration`}>
+                          Doesn't have an acount?
+                        </Link>
+                        {/* <a href="/auth/consumerRegistration">Doesn't have an acount?</a> */}
                       </div>
                       {/*Register button*/}
                       <div className="flex items-center justify-between pb-6">
-                        <p className="mb-0 mr-2">Already have an account?</p>
-                        <button
+                        <p className="mb-0 mr-2 text-white">
+                          Create new account
+                        </p>
+                        {/* <Link  */}
+                        <Link
+                          to="/auth/consumerRegistration"
                           type="button"
                           className="inline-block rounded border-2 border-danger px-6 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-danger transition duration-150 ease-in-out hover:border-danger-600 hover:bg-neutral-500 hover:bg-opacity-10 hover:text-danger-600 focus:border-danger-600 focus:text-danger-600 focus:outline-none focus:ring-0 active:border-danger-700 active:text-danger-700 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10"
                           data-te-ripple-init
                           data-te-ripple-color="light"
                         >
-                          Login
-                        </button>
+                          Register
+                          {/* </button> */}
+                        </Link>
                       </div>
                     </form>
                   </div>

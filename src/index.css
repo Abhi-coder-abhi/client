@@ -2,3 +2,57 @@
 @tailwind components;
 @tailwind utilities;
 
+.section {
+  display: grid;
+  align-content: center;
+}
+
+@media (min-width: 768px) {
+  .sticky {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    transition: all 0.2s;
+  }
+
+  .rounded-navbar {
+    margin-top: 2rem;
+    margin-bottom: -3rem;
+    border-radius: 2% / 45%;
+    width: 80%;
+    transition: all 0.2s;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+}
+
+/* Define CSS animations */
+@keyframes slideInFromLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Apply animations to elements */
+.animate-left {
+  animation: slideInFromLeft 1s ease-in-out forwards;
+}
+
+.animate-right {
+  animation: slideInFromRight 1s ease-in-out forwards;
+}
